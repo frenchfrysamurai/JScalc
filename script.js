@@ -17,15 +17,15 @@ class Calculator {
     }
 
     appendNumber(number) {
-        if (number === '.' && this.currentOperand.includes('.')) return
-        this.currentOperand = this.currentOperand.toString() + number.toString()
+        if (number === '.' && this.currentOperand.includes('.')) return //allow only one decimal point
+        this.currentOperand = this.currentOperand.toString() + number.toString() 
     }
 
     chooseOperation(operation) {
         if(this.currentOperand === '') return
-        if(this.previousOperand !== '') {
+        if(this.previousOperand !== '') { // if previous operand exists, compute!
             this.compute()
-        }
+        } //after computation, send operation to prevOperation and clear currentOperation
         this.operation = operation
         this.previousOperand = this.currentOperand
         this.currentOperand = ''
@@ -33,9 +33,9 @@ class Calculator {
 
     compute() {
         let computation
-        const prev = parseFloat(this.previousOperand)
+        const prev = parseFloat(this.previousOperand) // turn previousOperand into number
         const current = parseFloat(this.currentOperand)
-        if (isNaN(prev) || isNaN(current)) return
+        if (isNaN(prev) || isNaN(current)) return // check if prev or current is number
         switch (this.operation) {
             case '+':
               computation = prev + current
@@ -52,15 +52,15 @@ class Calculator {
             default:
               return
         }
-        this.currentOperand = computation
+        this.currentOperand = computation // update currentOperand with computation results
         this.operation = undefined
         this.previousOperand = ''
     }
 
     getDisplayNumber(number) {
-        const stringNumber = number.toString()
-        const integerDigits = parseFloat(stringNumber.split('.')[0])
-        const decimalDigits = stringNumber.split('.')[1]
+        const stringNumber = number.toString() 
+        const integerDigits = parseFloat(stringNumber.split('.')[0]) //grabs integer number before '.'
+        const decimalDigits = stringNumber.split('.')[1] // grabs numbers after digits
         let integerDisplay
         if (isNaN(integerDigits)) {
           integerDisplay = ''
@@ -77,9 +77,9 @@ class Calculator {
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
         if (this.operation != null) {
-            this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+            this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}` 
         } else {
-            this.previousOperandTextElement.innerText = ''
+            this.previousOperandTextElement.innerText = '' //clears prev after calculation
         }
     }
 }
